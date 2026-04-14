@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: workgrid-backend
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: workgrid-frontend
+    ports:
+      - "8212:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://jadenk.de:4000
+    depends_on:
+      - backend
+    restart: unless-stopped

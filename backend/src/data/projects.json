@@ -1,61 +1,35 @@
 [
   {
-    "id": "project-1",
-    "title": "Product roadmap",
-    "description": "Planning next quarter priorities",
+    "id": "project-1776190488395",
+    "title": "tas",
+    "description": "dasd",
     "categories": [
       {
-        "id": "category-idea",
+        "id": "category-1776190488395-857",
         "name": "Idea",
         "subtitle": "Open thoughts",
         "color": "#64748b",
         "items": []
       },
       {
-        "id": "category-progress",
+        "id": "category-1776190488395-706",
         "name": "Progress",
         "subtitle": "Active work",
         "color": "#2563eb",
-        "items": []
-      },
-      {
-        "id": "category-finish",
-        "name": "Finish",
-        "subtitle": "Done",
-        "color": "#16a34a",
         "items": [
           {
-            "id": "item-1",
-            "title": "Landing page refresh",
-            "description": "Collect a few directions for a cleaner homepage.",
-            "priority": "medium"
-          },
-          {
-            "id": "item-2",
-            "title": "Board layout",
-            "description": "Build the first project board layout.",
-            "priority": "high"
-          },
-          {
-            "id": "item-1776187378268-632",
-            "title": "asd",
+            "id": "item-1776190495575-669",
+            "title": "basd",
             "description": "asd",
-            "priority": "high"
+            "priority": "medium"
           }
         ]
       },
       {
-        "id": "category-1776187344216-17",
-        "name": "test",
-        "subtitle": "asdasd",
-        "color": "#0253c5",
-        "items": []
-      },
-      {
-        "id": "category-1776188347631-434",
-        "name": "asd",
-        "subtitle": "asd",
-        "color": "#64748b",
+        "id": "category-1776190488395-677",
+        "name": "Finish",
+        "subtitle": "Done",
+        "color": "#16a34a",
         "items": []
       }
     ]
