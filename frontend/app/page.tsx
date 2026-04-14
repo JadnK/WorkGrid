@@ -1,4 +1,15 @@
-export default function HomePage() {
+import { getHealth } from "@/lib/api";
+
+export default async function HomePage() {
+  let backendStatus = "offline";
+
+  try {
+    const data = await getHealth();
+    backendStatus = data.status;
+  } catch (error) {
+    backendStatus = "unreachable";
+  }
+
   return (
     <main className="min-h-screen bg-neutral-950 text-neutral-100">
       <section className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-6 py-16">
@@ -15,13 +26,8 @@ export default function HomePage() {
           organizing tasks, lists and team workflows.
         </p>
 
-        <div className="mt-8 flex gap-4">
-          <button className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-black transition hover:opacity-90">
-            Create board
-          </button>
-          <button className="rounded-xl border border-neutral-700 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-900">
-            View demo
-          </button>
+        <div className="mt-8 inline-flex w-fit items-center rounded-full border border-neutral-800 px-4 py-2 text-sm text-neutral-300">
+          Backend status: <span className="ml-2 font-medium text-white">{backendStatus}</span>
         </div>
       </section>
     </main>
