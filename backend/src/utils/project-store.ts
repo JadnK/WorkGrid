@@ -2,10 +2,28 @@ import { promises as fs } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+export type TaskPriority = "low" | "medium" | "high";
+
+export type ProjectItem = {
+  id: string;
+  title: string;
+  description: string;
+  priority: TaskPriority;
+};
+
+export type ProjectCategory = {
+  id: string;
+  name: string;
+  subtitle: string;
+  color: string;
+  items: ProjectItem[];
+};
+
 export type Project = {
   id: string;
   title: string;
   description: string;
+  categories: ProjectCategory[];
 };
 
 const __filename = fileURLToPath(import.meta.url);

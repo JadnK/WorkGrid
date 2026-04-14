@@ -1,7 +1,44 @@
 [
   {
-    "id": "project-1776186454473",
-    "title": "asdasd",
-    "description": "asdasdd"
+    "id": "project-1",
+    "title": "Product roadmap",
+    "description": "Planning next quarter priorities",
+    "categories": [
+      {
+        "id": "category-idea",
+        "name": "Idea",
+        "subtitle": "Open thoughts",
+        "color": "#64748b",
+        "items": [
+          {
+            "id": "item-1",
+            "title": "Landing page refresh",
+            "description": "Collect a few directions for a cleaner homepage.",
+            "priority": "medium"
+          }
+        ]
+      },
+      {
+        "id": "category-progress",
+        "name": "Progress",
+        "subtitle": "Active work",
+        "color": "#2563eb",
+        "items": [
+          {
+            "id": "item-2",
+            "title": "Board layout",
+            "description": "Build the first project board layout.",
+            "priority": "high"
+          }
+        ]
+      },
+      {
+        "id": "category-finish",
+        "name": "Finish",
+        "subtitle": "Done",
+        "color": "#16a34a",
+        "items": []
+      }
+    ]
   }
 ]
