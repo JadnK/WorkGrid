@@ -1,11 +1,11 @@
 import express from "express";
+import healthRouter from "./routes/health.routes.js";
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
-app.get("/health", (_req, res) => {
-  res.json({ ok: true });
-});
+app.use(express.json());
+app.use(healthRouter);
 
 app.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);
