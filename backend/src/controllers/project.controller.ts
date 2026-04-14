@@ -14,6 +14,23 @@ export async function getProjects(_req: Request, res: Response) {
   }
 }
 
+export async function getProjectById(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const projects = await readProjects();
+
+    const project = projects.find((entry) => entry.id === id);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    res.json(project);
+  } catch {
+    res.status(500).json({ message: "Could not load project" });
+  }
+}
+
 export async function createProject(req: Request, res: Response) {
   try {
     const { title, description } = req.body;
@@ -27,8 +44,7 @@ export async function createProject(req: Request, res: Response) {
     const newProject = {
       id: createProjectId(),
       title: title.trim(),
-      description:
-        typeof description === "string" ? description.trim() : ""
+      description: typeof description === "string" ? description.trim() : ""
     };
 
     const updatedProjects = [newProject, ...projects];
@@ -59,8 +75,7 @@ export async function updateProject(req: Request, res: Response) {
     projects[projectIndex] = {
       ...projects[projectIndex],
       title: title.trim(),
-      description:
-        typeof description === "string" ? description.trim() : ""
+      description: typeof description === "string" ? description.trim() : ""
     };
 
     await writeProjects(projects);
