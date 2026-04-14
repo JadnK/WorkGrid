@@ -14,6 +14,18 @@ export async function getProjects(): Promise<Project[]> {
   return response.json();
 }
 
+export async function getProjectById(id: string): Promise<Project> {
+  const response = await fetch(`${API_BASE_URL}/projects/${id}`, {
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch project");
+  }
+
+  return response.json();
+}
+
 export async function createProject(
   title: string,
   description: string

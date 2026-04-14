@@ -7,6 +7,7 @@ import {
   getProjects,
   updateProject
 } from "@/lib/api";
+import Link from "next/link";
 import { Project } from "@/types";
 
 export default function HomePage() {
@@ -199,7 +200,10 @@ export default function HomePage() {
                     </div>
                   ) : (
                     <div className="flex h-full flex-col">
-                      <div className="mb-6">
+                      <Link
+                        href={`/projects/${project.id}`}
+                        className="mb-6 block rounded-2xl outline-none transition hover:opacity-95 focus-visible:ring-2 focus-visible:ring-white/20"
+                      >
                         <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] text-sm font-medium text-white/70">
                           WG
                         </div>
@@ -213,12 +217,10 @@ export default function HomePage() {
                             {project.description}
                           </p>
                         ) : null}
-                      </div>
+                      </Link>
 
                       <div className="mt-auto border-t border-white/8 pt-4">
-                        <div className="mb-4 text-xs text-white/28">
-                          {project.id}
-                        </div>
+                        <div className="mb-4 text-xs text-white/28">{project.id}</div>
 
                         <div className="flex items-center gap-2">
                           <button
