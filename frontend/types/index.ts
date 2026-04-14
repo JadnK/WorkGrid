@@ -1,4 +1,4 @@
-export type Board = {
+export type Project = {
   id: string;
   title: string;
 };
