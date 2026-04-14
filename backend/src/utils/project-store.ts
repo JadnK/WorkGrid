@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 export type Project = {
   id: string;
   title: string;
+  description: string;
 };
 
 const __filename = fileURLToPath(import.meta.url);

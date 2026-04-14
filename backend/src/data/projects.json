@@ -1,10 +1,12 @@
 [
   {
     "id": "project-1",
-    "title": "Product roadmap"
+    "title": "Product roadmap",
+    "description": "Planning next quarter priorities"
   },
   {
     "id": "project-2",
-    "title": "Marketing sprint"
+    "title": "Marketing sprint",
+    "description": "Launch prep and content tasks"
   }
 ]
