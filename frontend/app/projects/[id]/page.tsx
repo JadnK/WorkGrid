@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getProjectById } from "@/lib/api";
-import ProjectBoard from "@/components/board/project-board";
+import ProjectBoardClient from "@/components/board/project-board-client";
 
 type ProjectDetailsPageProps = {
   params: Promise<{
@@ -24,10 +24,10 @@ export default async function ProjectDetailsPage({
   if (!project) {
     return (
       <main className="min-h-screen bg-[#0a0c0f] text-white">
-        <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-5 sm:py-10">
+        <section className="px-4 py-6 sm:px-6 sm:py-8">
           <Link
             href="/"
-            className="mb-6 inline-flex items-center text-sm text-white/50 transition hover:text-white/80"
+            className="mb-5 inline-flex items-center text-sm text-white/50 transition hover:text-white/80"
           >
             ← Back
           </Link>
@@ -44,15 +44,15 @@ export default async function ProjectDetailsPage({
 
   return (
     <main className="min-h-screen bg-[#0a0c0f] text-white">
-      <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-5 sm:py-10">
+      <section className="px-4 py-6 sm:px-6 sm:py-8">
         <Link
           href="/"
-          className="mb-6 inline-flex items-center text-sm text-white/50 transition hover:text-white/80"
+          className="mb-5 inline-flex items-center text-sm text-white/50 transition hover:text-white/80"
         >
           ← Back
         </Link>
 
-        <ProjectBoard initialProject={project} />
+        <ProjectBoardClient initialProject={project} />
       </section>
     </main>
   );

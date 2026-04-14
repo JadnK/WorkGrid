@@ -9,34 +9,53 @@
         "name": "Idea",
         "subtitle": "Open thoughts",
         "color": "#64748b",
-        "items": [
-          {
-            "id": "item-1",
-            "title": "Landing page refresh",
-            "description": "Collect a few directions for a cleaner homepage.",
-            "priority": "medium"
-          }
-        ]
+        "items": []
       },
       {
         "id": "category-progress",
         "name": "Progress",
         "subtitle": "Active work",
         "color": "#2563eb",
-        "items": [
-          {
-            "id": "item-2",
-            "title": "Board layout",
-            "description": "Build the first project board layout.",
-            "priority": "high"
-          }
-        ]
+        "items": []
       },
       {
         "id": "category-finish",
         "name": "Finish",
         "subtitle": "Done",
         "color": "#16a34a",
+        "items": [
+          {
+            "id": "item-1",
+            "title": "Landing page refresh",
+            "description": "Collect a few directions for a cleaner homepage.",
+            "priority": "medium"
+          },
+          {
+            "id": "item-2",
+            "title": "Board layout",
+            "description": "Build the first project board layout.",
+            "priority": "high"
+          },
+          {
+            "id": "item-1776187378268-632",
+            "title": "asd",
+            "description": "asd",
+            "priority": "high"
+          }
+        ]
+      },
+      {
+        "id": "category-1776187344216-17",
+        "name": "test",
+        "subtitle": "asdasd",
+        "color": "#0253c5",
+        "items": []
+      },
+      {
+        "id": "category-1776188347631-434",
+        "name": "asd",
+        "subtitle": "asd",
+        "color": "#64748b",
         "items": []
       }
     ]
