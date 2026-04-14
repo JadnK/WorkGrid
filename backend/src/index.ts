@@ -1,9 +1,16 @@
 import express from "express";
+import cors from "cors";
 import healthRouter from "./routes/health.routes.js";
 import projectRouter from "./routes/project.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+
+app.use(
+  cors({
+    origin: "http://localhost:3000"
+  })
+);
 
 app.use(express.json());
 app.use(healthRouter);
