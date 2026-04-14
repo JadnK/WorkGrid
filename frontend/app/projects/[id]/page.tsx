@@ -23,7 +23,7 @@ export default async function ProjectDetailsPage({
   if (!project) {
     return (
       <main className="min-h-screen bg-[#0a0c0f] text-white">
-        <section className="mx-auto max-w-4xl px-6 py-10 sm:px-8 sm:py-14">
+        <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-5 sm:py-10">
           <Link
             href="/"
             className="mb-8 inline-flex items-center text-sm text-white/50 transition hover:text-white/80"
@@ -43,7 +43,7 @@ export default async function ProjectDetailsPage({
 
   return (
     <main className="min-h-screen bg-[#0a0c0f] text-white">
-      <section className="mx-auto max-w-4xl px-6 py-10 sm:px-8 sm:py-14">
+        <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-5 sm:py-10">
         <Link
           href="/"
           className="mb-8 inline-flex items-center text-sm text-white/50 transition hover:text-white/80"
@@ -51,7 +51,7 @@ export default async function ProjectDetailsPage({
           ← Back
         </Link>
 
-        <div className="rounded-[32px] border border-white/8 bg-white/[0.03] p-8 sm:p-10">
+        <div className="rounded-[28px] border border-white/8 bg-white/[0.03] p-5 sm:p-6">
           <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] text-sm font-medium text-white/70">
             WG
           </div>
