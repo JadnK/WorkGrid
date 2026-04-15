@@ -1,5 +1,12 @@
 import type { Request, Response } from "express";
-import { readProjects, writeProjects } from "../utils/project-store.js";
+import {
+  readProjects,
+  writeProjects,
+  type Project,
+  type ProjectCategory,
+  type ProjectItem,
+  type TaskPriority
+} from "../utils/project-store.js";
 
 function createProjectId() {
   return `project-${Date.now()}`;
@@ -13,7 +20,7 @@ function createItemId() {
   return `item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 }
 
-function createDefaultCategories() {
+function createDefaultCategories(): ProjectCategory[] {
   return [
     {
       id: createCategoryId(),
@@ -39,11 +46,20 @@ function createDefaultCategories() {
   ];
 }
 
+function normalizePriority(value: unknown): TaskPriority {
+  if (value === "low" || value === "medium" || value === "high") {
+    return value;
+  }
+
+  return "medium";
+}
+
 export async function getProjects(_req: Request, res: Response) {
   try {
     const projects = await readProjects();
     res.json(projects);
-  } catch {
+  } catch (error) {
+    console.error("getProjects failed:", error);
     res.status(500).json({ message: "Could not load projects" });
   }
 }
@@ -53,14 +69,15 @@ export async function getProjectById(req: Request, res: Response) {
     const { id } = req.params;
     const projects = await readProjects();
 
-    const project = projects.find((entry) => entry.id === id);
+    const project = projects.find((entry: Project) => entry.id === id);
 
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
     res.json(project);
-  } catch {
+  } catch (error) {
+    console.error("getProjectById failed:", error);
     res.status(500).json({ message: "Could not load project" });
   }
 }
@@ -75,18 +92,19 @@ export async function createProject(req: Request, res: Response) {
 
     const projects = await readProjects();
 
-    const newProject = {
+    const newProject: Project = {
       id: createProjectId(),
       title: title.trim(),
       description: typeof description === "string" ? description.trim() : "",
       categories: createDefaultCategories()
     };
 
-    const updatedProjects = [newProject, ...projects];
+    const updatedProjects: Project[] = [newProject, ...projects];
     await writeProjects(updatedProjects);
 
     res.status(201).json(newProject);
-  } catch {
+  } catch (error) {
+    console.error("createProject failed:", error);
     res.status(500).json({ message: "Could not create project" });
   }
 }
@@ -101,7 +119,7 @@ export async function updateProject(req: Request, res: Response) {
     }
 
     const projects = await readProjects();
-    const projectIndex = projects.findIndex((project) => project.id === id);
+    const projectIndex = projects.findIndex((project: Project) => project.id === id);
 
     if (projectIndex === -1) {
       return res.status(404).json({ message: "Project not found" });
@@ -116,7 +134,8 @@ export async function updateProject(req: Request, res: Response) {
     await writeProjects(projects);
 
     res.json(projects[projectIndex]);
-  } catch {
+  } catch (error) {
+    console.error("updateProject failed:", error);
     res.status(500).json({ message: "Could not update project" });
   }
 }
@@ -126,7 +145,9 @@ export async function deleteProject(req: Request, res: Response) {
     const { id } = req.params;
     const projects = await readProjects();
 
-    const filteredProjects = projects.filter((project) => project.id !== id);
+    const filteredProjects = projects.filter(
+      (project: Project) => project.id !== id
+    );
 
     if (filteredProjects.length === projects.length) {
       return res.status(404).json({ message: "Project not found" });
@@ -135,7 +156,8 @@ export async function deleteProject(req: Request, res: Response) {
     await writeProjects(filteredProjects);
 
     res.status(204).send();
-  } catch {
+  } catch (error) {
+    console.error("deleteProject failed:", error);
     res.status(500).json({ message: "Could not delete project" });
   }
 }
@@ -150,13 +172,13 @@ export async function createCategory(req: Request, res: Response) {
     }
 
     const projects = await readProjects();
-    const projectIndex = projects.findIndex((project) => project.id === id);
+    const projectIndex = projects.findIndex((project: Project) => project.id === id);
 
     if (projectIndex === -1) {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    const newCategory = {
+    const newCategory: ProjectCategory = {
       id: createCategoryId(),
       name: name.trim(),
       subtitle: typeof subtitle === "string" ? subtitle.trim() : "",
@@ -169,7 +191,8 @@ export async function createCategory(req: Request, res: Response) {
     await writeProjects(projects);
 
     res.status(201).json(newCategory);
-  } catch {
+  } catch (error) {
+    console.error("createCategory failed:", error);
     res.status(500).json({ message: "Could not create category" });
   }
 }
@@ -179,14 +202,14 @@ export async function deleteCategory(req: Request, res: Response) {
     const { id, categoryId } = req.params;
 
     const projects = await readProjects();
-    const projectIndex = projects.findIndex((project) => project.id === id);
+    const projectIndex = projects.findIndex((project: Project) => project.id === id);
 
     if (projectIndex === -1) {
       return res.status(404).json({ message: "Project not found" });
     }
 
     const nextCategories = projects[projectIndex].categories.filter(
-      (category) => category.id !== categoryId
+      (category: ProjectCategory) => category.id !== categoryId
     );
 
     if (nextCategories.length === projects[projectIndex].categories.length) {
@@ -197,7 +220,8 @@ export async function deleteCategory(req: Request, res: Response) {
     await writeProjects(projects);
 
     res.status(204).send();
-  } catch {
+  } catch (error) {
+    console.error("deleteCategory failed:", error);
     res.status(500).json({ message: "Could not delete category" });
   }
 }
@@ -212,35 +236,33 @@ export async function createItem(req: Request, res: Response) {
     }
 
     const projects = await readProjects();
-    const projectIndex = projects.findIndex((project) => project.id === id);
+    const projectIndex = projects.findIndex((project: Project) => project.id === id);
 
     if (projectIndex === -1) {
       return res.status(404).json({ message: "Project not found" });
     }
 
     const categoryIndex = projects[projectIndex].categories.findIndex(
-      (category) => category.id === categoryId
+      (category: ProjectCategory) => category.id === categoryId
     );
 
     if (categoryIndex === -1) {
       return res.status(404).json({ message: "Category not found" });
     }
 
-    const newItem = {
+    const newItem: ProjectItem = {
       id: createItemId(),
       title: title.trim(),
       description: typeof description === "string" ? description.trim() : "",
-      priority:
-        priority === "low" || priority === "medium" || priority === "high"
-          ? priority
-          : "medium"
+      priority: normalizePriority(priority)
     };
 
     projects[projectIndex].categories[categoryIndex].items.push(newItem);
     await writeProjects(projects);
 
     res.status(201).json(newItem);
-  } catch {
+  } catch (error) {
+    console.error("createItem failed:", error);
     res.status(500).json({ message: "Could not create item" });
   }
 }
@@ -251,7 +273,7 @@ export async function moveItem(req: Request, res: Response) {
     const { sourceCategoryId, targetCategoryId, targetIndex } = req.body;
 
     const projects = await readProjects();
-    const projectIndex = projects.findIndex((project) => project.id === id);
+    const projectIndex = projects.findIndex((project: Project) => project.id === id);
 
     if (projectIndex === -1) {
       return res.status(404).json({ message: "Project not found" });
@@ -260,18 +282,20 @@ export async function moveItem(req: Request, res: Response) {
     const project = projects[projectIndex];
 
     const sourceCategory = project.categories.find(
-      (category) => category.id === sourceCategoryId
+      (category: ProjectCategory) => category.id === sourceCategoryId
     );
 
     const targetCategory = project.categories.find(
-      (category) => category.id === targetCategoryId
+      (category: ProjectCategory) => category.id === targetCategoryId
     );
 
     if (!sourceCategory || !targetCategory) {
       return res.status(404).json({ message: "Category not found" });
     }
 
-    const itemIndex = sourceCategory.items.findIndex((item) => item.id === itemId);
+    const itemIndex = sourceCategory.items.findIndex(
+      (item: ProjectItem) => item.id === itemId
+    );
 
     if (itemIndex === -1) {
       return res.status(404).json({ message: "Item not found" });
@@ -279,17 +303,22 @@ export async function moveItem(req: Request, res: Response) {
 
     const [movedItem] = sourceCategory.items.splice(itemIndex, 1);
 
-    const safeTargetIndex =
+    let safeTargetIndex =
       typeof targetIndex === "number" && targetIndex >= 0
         ? targetIndex
         : targetCategory.items.length;
+
+    if (sourceCategoryId === targetCategoryId && itemIndex < safeTargetIndex) {
+      safeTargetIndex -= 1;
+    }
 
     targetCategory.items.splice(safeTargetIndex, 0, movedItem);
 
     await writeProjects(projects);
 
     res.json(project);
-  } catch {
+  } catch (error) {
+    console.error("moveItem failed:", error);
     res.status(500).json({ message: "Could not move item" });
   }
 }

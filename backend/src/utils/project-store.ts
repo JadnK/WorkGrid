@@ -26,16 +26,26 @@ export type Project = {
   categories: ProjectCategory[];
 };
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const dataDir = path.join(process.cwd(), "data");
+const filePath = path.join(dataDir, "projects.json");
 
-const dataFilePath = path.join(__dirname, "../data/projects.json");
+async function ensureFile() {
+  await fs.mkdir(dataDir, { recursive: true });
 
-export async function readProjects(): Promise<Project[]> {
-  const fileContent = await fs.readFile(dataFilePath, "utf-8");
-  return JSON.parse(fileContent) as Project[];
+  try {
+    await fs.access(filePath);
+  } catch {
+    await fs.writeFile(filePath, "[]", "utf-8");
+  }
 }
 
-export async function writeProjects(projects: Project[]): Promise<void> {
-  await fs.writeFile(dataFilePath, JSON.stringify(projects, null, 2));
+export async function readProjects() {
+  await ensureFile();
+  const data = await fs.readFile(filePath, "utf-8");
+  return JSON.parse(data);
+}
+
+export async function writeProjects(projects: any[]) {
+  await ensureFile();
+  await fs.writeFile(filePath, JSON.stringify(projects, null, 2));
 }

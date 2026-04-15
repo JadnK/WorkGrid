@@ -7,6 +7,8 @@ services:
     container_name: workgrid-backend
     ports:
       - "4000:4000"
+    volumes:
+      - ./backend-data:/app/data
     environment:
       PORT: 4000
     restart: unless-stopped
@@ -18,7 +20,7 @@ services:
     ports:
       - "8212:3000"
     environment:
-      NEXT_PUBLIC_API_URL: http://jadenk.de:4000
+      NEXT_PUBLIC_API_URL: "http://jadenk.de:4000"
     depends_on:
       - backend
     restart: unless-stopped
